@@ -2,7 +2,7 @@ import streamlit as st
 from ai_engine1 import generate_roadmap, generate_explanation, generate_resources, chatbot_response
 from auth1 import signup_user, login_user, save_history, get_history
 
-st.set_page_config(page_title="Learnova", page_icon="⚡", layout="centered",initial_sidebar_state="expanded")
+st.set_page_config(page_title="Learnova", page_icon="⚡", layout="centered")
 
 # ---------------- SESSION STATE ----------------
 defaults = {
@@ -159,19 +159,23 @@ div[data-testid="stAlert"] { border-radius: 12px !important; font-size: 14px !im
 /* ===== DIVIDER ===== */
 hr { border-color: rgba(255,255,255,0.07) !important; margin: clamp(18px, 3.5vw, 34px) 0 !important; }
 
-/* ===== SELECTBOX ===== */
+/* ===== SELECTBOX (kept minimal for any other use) ===== */
 div[data-testid="stSelectbox"] > div > div {
     background: #111118 !important;
     border: 0.5px solid rgba(255,255,255,0.12) !important;
     border-radius: 12px !important;
     color: #f0eeff !important;
 }
+
+/* Dropdown list popup */
 div[data-testid="stSelectbox"] ul,
 [data-baseweb="popover"] ul {
     background: #1a1a2e !important;
     border: 1px solid rgba(124,92,252,0.3) !important;
     border-radius: 12px !important;
 }
+
+/* Each option in dropdown */
 div[data-testid="stSelectbox"] li,
 [data-baseweb="popover"] li {
     color: #d4c4ff !important;
@@ -183,7 +187,7 @@ div[data-testid="stSelectbox"] li:hover,
     background: rgba(124,92,252,0.2) !important;
 }
 
-/* ===== AUTH CARD ===== */
+/* ===== AUTH CARD — style the middle column as a card ===== */
 [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-child(2) > div:first-child {
     background: #111118;
     border: 0.5px solid rgba(255,255,255,0.08);
@@ -191,14 +195,25 @@ div[data-testid="stSelectbox"] li:hover,
     padding: clamp(22px, 4vw, 38px) clamp(18px, 4vw, 34px) !important;
 }
 
-/* ===== SPACING CLEANUP ===== */
+/* ===== ELIMINATE EXTRA GAPS between Streamlit elements ===== */
+/* Remove padding/margin from empty p tags Streamlit sometimes injects */
 .stMarkdown p:empty { display: none !important; margin: 0 !important; padding: 0 !important; }
+
+/* Collapse gap between hero and auth card */
 .ln-hero + div,
 [data-testid="stVerticalBlock"] > [data-testid="stVerticalBlock"]:has(.auth-card-wrapper) {
     margin-top: 0 !important;
 }
-[data-testid="stVerticalBlock"] > [data-testid="stVerticalBlock"] { gap: 0 !important; }
+
+/* Reduce default gap between stMarkdown elements */
+[data-testid="stVerticalBlock"] > [data-testid="stVerticalBlock"] {
+    gap: 0 !important;
+}
+
+/* Remove Streamlit's default element container padding */
 .element-container { margin-bottom: 0 !important; }
+
+/* Tight spacing for auth pages specifically */
 .auth-page .element-container { margin-bottom: 6px !important; }
 
 /* ===== MOBILE TOP BAR ===== */
@@ -233,7 +248,7 @@ div[data-testid="stSelectbox"] li:hover,
     .ln-mobile-bar { display: none !important; }
 }
 
-/* ===== STACK COLUMNS ON TINY SCREENS ===== */
+/* ===== COLUMNS: STACK ON TINY SCREENS ===== */
 @media (max-width: 480px) {
     [data-testid="stHorizontalBlock"] {
         flex-direction: column !important;
@@ -257,12 +272,7 @@ div[data-testid="stSelectbox"] li:hover,
 }
 
 /* ===== COMPONENT CLASSES ===== */
-.ln-hero {
-    text-align:center;
-    padding: clamp(20px,5vw,46px) 0 clamp(6px,1.5vw,12px);
-    animation: fadeUp .6s ease;
-    display:flex; flex-direction:column; align-items:center;
-}
+.ln-hero { text-align:center; padding: clamp(20px,5vw,46px) 0 clamp(6px,1.5vw,12px); animation: fadeUp .6s ease; display:flex; flex-direction:column; align-items:center; }
 .ln-badge {
     display:inline-flex; align-items:center; gap:7px;
     padding:5px 13px; border-radius:999px;
@@ -280,11 +290,7 @@ div[data-testid="stSelectbox"] li:hover,
     background:linear-gradient(135deg,#f0eeff 0%,#a98bff 50%,#00d4aa 100%);
     -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
 }
-.ln-sub {
-    font-size:clamp(13px,2.3vw,17px); color:#8884a0;
-    max-width:460px; margin:0 auto; line-height:1.7;
-    text-align:center; display:block; width:100%;
-}
+.ln-sub { font-size:clamp(13px,2.3vw,17px); color:#8884a0; max-width:460px; margin:0 auto; line-height:1.7; text-align:center; display:block; width:100%; }
 
 .ln-stats {
     display:grid; grid-template-columns:repeat(3,1fr);
@@ -303,6 +309,13 @@ div[data-testid="stSelectbox"] li:hover,
 .ln-stat-lbl { font-size:clamp(9px,1.2vw,12px); color:#6b6585; margin-top:3px; text-transform:uppercase; letter-spacing:.5px; }
 
 .ln-section { font-family:'Syne',sans-serif; font-size:clamp(14px,2.2vw,18px); font-weight:700; margin:clamp(16px,3vw,26px) 0 clamp(8px,1.5vw,13px); }
+
+.ln-chips { display:flex; gap:7px; flex-wrap:wrap; margin:8px 0 clamp(14px,3vw,26px); }
+.ln-chip {
+    padding:5px 12px; border-radius:999px;
+    border:0.5px solid rgba(255,255,255,0.1);
+    font-size:clamp(10px,1.5vw,12px); color:#8884a0; background:#111118;
+}
 
 .ln-card {
     background:#111118; border:0.5px solid rgba(255,255,255,0.08);
@@ -374,6 +387,7 @@ div[data-testid="stSelectbox"] li:hover,
     .ln-stat-lbl { font-size: 8px; }
     .ln-card { padding: 15px; border-radius: 12px; }
     .ln-bubble-user > div, .ln-bubble-ai > div { max-width: 92%; }
+    .ln-chip { font-size: 11px; padding: 5px 10px; }
 }
 @media (min-width:1100px) {
     .stApp::before { width: 650px; height: 650px; }
@@ -426,8 +440,28 @@ def section_header(text: str, color: str = "#a98bff"):
     st.markdown(f'<div class="ln-section" style="color:{color};">{text}</div>', unsafe_allow_html=True)
 
 
+def quick_chips():
+    st.markdown("""
+    <div style="display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 20px;">
+        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
+            background:#111118; color:#8884a0; font-size:13px; cursor:default;">Machine Learning</span>
+        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
+            background:#111118; color:#8884a0; font-size:13px; cursor:default;">Web Development</span>
+        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
+            background:#111118; color:#8884a0; font-size:13px; cursor:default;">Data Science</span>
+        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
+            background:#111118; color:#8884a0; font-size:13px; cursor:default;">Python</span>
+        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
+            background:#111118; color:#8884a0; font-size:13px; cursor:default;">System Design</span>
+        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
+            background:#111118; color:#8884a0; font-size:13px; cursor:default;">Blockchain</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+
 # ================================================================
-#  AUTH PAGES
+#  AUTH PAGES  — FIX: use st.container() with CSS class instead of
+#  split open/close markdown divs (which cause the blank gap)
 # ================================================================
 
 def page_login():
@@ -468,7 +502,7 @@ def page_signup():
 # ================================================================
 
 def page_main():
-    # ---- SIDEBAR (desktop) — logout + history only ----
+    # ---- SIDEBAR (desktop only) ----
     with st.sidebar:
         st.markdown(f"""
         <div class="ln-sb-logo">
@@ -494,13 +528,22 @@ def page_main():
                 st.session_state.selected_response = r
                 st.session_state.chat_history = []
 
-    # ---- MOBILE TOP BAR (info only, no logout button) ----
+    # ---- MOBILE TOP BAR ----
     st.markdown(f"""
     <div class="ln-mobile-bar">
         <span class="ln-mobile-logo">⚡ Learnova</span>
         <span class="ln-mobile-user">👤 {st.session_state.username}</span>
     </div>
     """, unsafe_allow_html=True)
+
+    # Mobile logout button
+    mob_col1, mob_col2, mob_col3 = st.columns([2, 1, 2])
+    with mob_col2:
+        if st.button("🚪 Logout", key="mob_logout", use_container_width=True):
+            st.session_state.logged_in = False
+            st.session_state.username = ""
+            st.session_state.chat_history = []
+            st.rerun()
 
     # ---- HERO ----
     hero_banner(
@@ -517,6 +560,8 @@ def page_main():
     _, btn_col, _ = st.columns([1, 2, 1])
     with btn_col:
         generate_clicked = st.button("✨ Generate", use_container_width=True)
+
+    quick_chips()
 
     # ---- GENERATE ----
     if generate_clicked:
@@ -557,7 +602,7 @@ def page_main():
             st.markdown(f'<div class="ln-bubble-ai"><div>{msg["content"]}</div></div>', unsafe_allow_html=True)
 
     chat_q = st.text_input("", placeholder="Ask anything about the topic...",
-                           key="chat_input_box", label_visibility="collapsed")
+                       key="chat_input_box", label_visibility="collapsed")
 
     if st.button("Send"):
         if chat_q:
@@ -586,6 +631,7 @@ def page_main():
 #  ROUTER
 # ================================================================
 if not st.session_state.logged_in:
+    # Mobile-friendly top toggle instead of sidebar
     st.markdown("""
     <div style="text-align:center;padding:18px 0 4px;">
         <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;
@@ -595,6 +641,7 @@ if not st.session_state.logged_in:
     </div>
     """, unsafe_allow_html=True)
 
+    # Centered tab toggle using radio buttons (no CSS text visibility issues)
     st.markdown("""
     <style>
     div[data-testid="stRadio"] {
