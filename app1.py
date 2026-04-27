@@ -409,14 +409,14 @@ def hero_banner(title: str, subtitle: str, tag: str = ""):
     """, unsafe_allow_html=True)
 
 
-# def stat_row():
-#     st.markdown("""
-#     <div class="ln-stats">
-#         <div class="ln-stat"><div class="ln-stat-num">500+</div><div class="ln-stat-lbl">Topics</div></div>
-#         <div class="ln-stat"><div class="ln-stat-num">10K+</div><div class="ln-stat-lbl">Learners</div></div>
-#         <div class="ln-stat"><div class="ln-stat-num">∞</div><div class="ln-stat-lbl">Possibilities</div></div>
-#     </div>
-#     """, unsafe_allow_html=True)
+def stat_row():
+    st.markdown("""
+    <div class="ln-stats">
+        <div class="ln-stat"><div class="ln-stat-num">500+</div><div class="ln-stat-lbl">Topics</div></div>
+        <div class="ln-stat"><div class="ln-stat-num">10K+</div><div class="ln-stat-lbl">Learners</div></div>
+        <div class="ln-stat"><div class="ln-stat-num">∞</div><div class="ln-stat-lbl">Possibilities</div></div>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 def result_card(icon: str, title: str, content: str, accent: str = "#7c5cfc"):
