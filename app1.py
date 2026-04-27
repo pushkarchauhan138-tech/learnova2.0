@@ -174,15 +174,47 @@ div[data-testid="stSelectbox"] > div > div {
 /* The selected text inside */
 div[data-testid="stSelectbox"] span,
 div[data-testid="stSelectbox"] p,
-div[data-testid="stSelectbox"] div {
-    color: #d4c4ff !important;
+div[data-testid="stSelectbox"] div,
+div[data-testid="stSelectbox"] input,
+div[data-testid="stSelectbox"] [class*="placeholder"],
+div[data-testid="stSelectbox"] [class*="singleValue"],
+div[data-testid="stSelectbox"] [class*="ValueContainer"] {
+    color: #ffffff !important;
     font-family: 'Syne', sans-serif !important;
     font-weight: 700 !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #ffffff !important;
 }
 
 /* Dropdown arrow SVG */
-div[data-testid="stSelectbox"] svg { fill: #a98bff !important; }
+div[data-testid="stSelectbox"] svg { fill: #ffffff !important; }
+
+/* BaseWeb select value text — ye actual rendered text hai */
+[data-baseweb="select"] [data-testid="stSelectbox"],
+[data-baseweb="select"] span,
+[data-baseweb="select"] div,
+[data-baseweb="select"] input {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Direct BaseWeb value container */
+[data-baseweb="select"] > div {
+    background: rgba(124,92,252,0.12) !important;
+    border: 1.5px solid rgba(124,92,252,0.5) !important;
+    border-radius: 999px !important;
+    min-height: 52px !important;
+    padding: 4px 20px !important;
+    color: #ffffff !important;
+}
+
+/* Option text in dropdown list */
+[data-baseweb="menu"] *,
+[data-baseweb="popover"] * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
 
 /* Dropdown list popup */
 div[data-testid="stSelectbox"] ul,
