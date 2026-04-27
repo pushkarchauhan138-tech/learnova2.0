@@ -621,8 +621,10 @@ if not st.session_state.logged_in:
         menu_choice = st.radio("", ["Login", "Signup"], horizontal=True, label_visibility="collapsed", key="auth_menu")
 
     if menu_choice == "Login":
+        st.markdown('<p style="text-align:center;color:#a98bff;font-family:\'Syne\',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin:0 0 6px;">🔐 Login Page</p>', unsafe_allow_html=True)
         page_login()
     else:
+        st.markdown('<p style="text-align:center;color:#00d4aa;font-family:\'Syne\',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin:0 0 6px;">✨ Signup Page</p>', unsafe_allow_html=True)
         page_signup()
 else:
     page_main()
