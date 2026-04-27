@@ -159,28 +159,49 @@ div[data-testid="stAlert"] { border-radius: 12px !important; font-size: 14px !im
 /* ===== DIVIDER ===== */
 hr { border-color: rgba(255,255,255,0.07) !important; margin: clamp(18px, 3.5vw, 34px) 0 !important; }
 
-/* ===== SELECTBOX ===== */
+/* ===== SELECTBOX — full fix ===== */
+div[data-testid="stSelectbox"] { max-width: 320px !important; margin: 0 auto 6px auto !important; }
+
+/* The visible pill box */
 div[data-testid="stSelectbox"] > div > div {
-    background: #111118 !important;
-    border: 0.5px solid rgba(255,255,255,0.12) !important;
-    border-radius: 12px !important;
-    color: #f0eeff !important;
+    background: rgba(124,92,252,0.12) !important;
+    border: 1.5px solid rgba(124,92,252,0.5) !important;
+    border-radius: 999px !important;
+    padding: 14px 24px !important;
+    min-height: 52px !important;
 }
 
-/* ===== AUTH TOGGLE (mobile-friendly top selectbox) ===== */
-[data-testid="stSelectbox"] {
-    max-width: 220px !important;
-    margin: 0 auto 6px auto !important;
-}
-[data-testid="stSelectbox"] > div > div {
-    background: rgba(124,92,252,0.10) !important;
-    border: 0.5px solid rgba(124,92,252,0.35) !important;
-    border-radius: 999px !important;
-    color: #a98bff !important;
+/* The selected text inside */
+div[data-testid="stSelectbox"] span,
+div[data-testid="stSelectbox"] p,
+div[data-testid="stSelectbox"] div {
+    color: #d4c4ff !important;
     font-family: 'Syne', sans-serif !important;
     font-weight: 700 !important;
-    text-align: center !important;
-    padding: 8px 18px !important;
+    font-size: 15px !important;
+}
+
+/* Dropdown arrow SVG */
+div[data-testid="stSelectbox"] svg { fill: #a98bff !important; }
+
+/* Dropdown list popup */
+div[data-testid="stSelectbox"] ul,
+[data-baseweb="popover"] ul {
+    background: #1a1a2e !important;
+    border: 1px solid rgba(124,92,252,0.3) !important;
+    border-radius: 12px !important;
+}
+
+/* Each option in dropdown */
+div[data-testid="stSelectbox"] li,
+[data-baseweb="popover"] li {
+    color: #d4c4ff !important;
+    font-family: 'DM Sans', sans-serif !important;
+    background: transparent !important;
+}
+div[data-testid="stSelectbox"] li:hover,
+[data-baseweb="popover"] li:hover {
+    background: rgba(124,92,252,0.2) !important;
 }
 
 /* ===== AUTH CARD — style the middle column as a card ===== */
