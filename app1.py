@@ -159,61 +159,12 @@ div[data-testid="stAlert"] { border-radius: 12px !important; font-size: 14px !im
 /* ===== DIVIDER ===== */
 hr { border-color: rgba(255,255,255,0.07) !important; margin: clamp(18px, 3.5vw, 34px) 0 !important; }
 
-/* ===== SELECTBOX — full fix ===== */
-div[data-testid="stSelectbox"] { max-width: 320px !important; margin: 0 auto 6px auto !important; }
-
-/* The visible pill box */
+/* ===== SELECTBOX (kept minimal for any other use) ===== */
 div[data-testid="stSelectbox"] > div > div {
-    background: rgba(124,92,252,0.12) !important;
-    border: 1.5px solid rgba(124,92,252,0.5) !important;
-    border-radius: 999px !important;
-    padding: 14px 24px !important;
-    min-height: 52px !important;
-}
-
-/* The selected text inside */
-div[data-testid="stSelectbox"] span,
-div[data-testid="stSelectbox"] p,
-div[data-testid="stSelectbox"] div,
-div[data-testid="stSelectbox"] input,
-div[data-testid="stSelectbox"] [class*="placeholder"],
-div[data-testid="stSelectbox"] [class*="singleValue"],
-div[data-testid="stSelectbox"] [class*="ValueContainer"] {
-    color: #ffffff !important;
-    font-family: 'Syne', sans-serif !important;
-    font-weight: 700 !important;
-    font-size: 16px !important;
-    opacity: 1 !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
-
-/* Dropdown arrow SVG */
-div[data-testid="stSelectbox"] svg { fill: #ffffff !important; }
-
-/* BaseWeb select value text — ye actual rendered text hai */
-[data-baseweb="select"] [data-testid="stSelectbox"],
-[data-baseweb="select"] span,
-[data-baseweb="select"] div,
-[data-baseweb="select"] input {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
-
-/* Direct BaseWeb value container */
-[data-baseweb="select"] > div {
-    background: rgba(124,92,252,0.12) !important;
-    border: 1.5px solid rgba(124,92,252,0.5) !important;
-    border-radius: 999px !important;
-    min-height: 52px !important;
-    padding: 4px 20px !important;
-    color: #ffffff !important;
-}
-
-/* Option text in dropdown list */
-[data-baseweb="menu"] *,
-[data-baseweb="popover"] * {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
+    background: #111118 !important;
+    border: 0.5px solid rgba(255,255,255,0.12) !important;
+    border-radius: 12px !important;
+    color: #f0eeff !important;
 }
 
 /* Dropdown list popup */
@@ -620,10 +571,54 @@ if not st.session_state.logged_in:
     </div>
     """, unsafe_allow_html=True)
 
-    # Centered tab toggle
+    # Centered tab toggle using radio buttons (no CSS text visibility issues)
+    st.markdown("""
+    <style>
+    div[data-testid="stRadio"] {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 8px auto;
+    }
+    div[data-testid="stRadio"] > div {
+        display: flex;
+        flex-direction: row;
+        gap: 0;
+        background: #111118;
+        border: 1.5px solid rgba(124,92,252,0.4);
+        border-radius: 999px;
+        padding: 4px;
+        width: fit-content;
+    }
+    div[data-testid="stRadio"] label {
+        padding: 10px 32px !important;
+        border-radius: 999px !important;
+        cursor: pointer !important;
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 15px !important;
+        color: #8884a0 !important;
+        transition: all 0.2s !important;
+        margin: 0 !important;
+    }
+    div[data-testid="stRadio"] label:has(input:checked) {
+        background: linear-gradient(135deg, #7c5cfc, #5a3dd4) !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+    div[data-testid="stRadio"] label p {
+        color: inherit !important;
+        -webkit-text-fill-color: inherit !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+    }
+    div[data-testid="stRadio"] input { display: none !important; }
+    div[data-testid="stRadio"] [data-testid="stMarkdownContainer"] { display: none !important; }
+    </style>
+    """, unsafe_allow_html=True)
+
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        menu_choice = st.selectbox("", ["Login", "Signup"], label_visibility="collapsed", key="auth_menu")
+        menu_choice = st.radio("", ["Login", "Signup"], horizontal=True, label_visibility="collapsed", key="auth_menu")
 
     if menu_choice == "Login":
         page_login()
