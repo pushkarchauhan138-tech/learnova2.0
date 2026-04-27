@@ -2,7 +2,7 @@ import streamlit as st
 from ai_engine1 import generate_roadmap, generate_explanation, generate_resources, chatbot_response
 from auth1 import signup_user, login_user, save_history, get_history
 
-st.set_page_config(page_title="Learnova", page_icon="⚡", layout="centered")
+st.set_page_config(page_title="Learnova", page_icon="", layout="centered")
 
 # ---------------- SESSION STATE ----------------
 defaults = {
@@ -11,6 +11,7 @@ defaults = {
     "selected_query": None,
     "selected_response": None,
     "chat_history": [],
+    "topic_input": "",
 }
 for k, v in defaults.items():
     if k not in st.session_state:
@@ -279,6 +280,33 @@ div[data-testid="stSelectbox"] li:hover,
 .ln-section { font-family:'Syne',sans-serif; font-size:clamp(14px,2.2vw,18px); font-weight:700; margin:clamp(16px,3vw,26px) 0 clamp(8px,1.5vw,13px); }
 
 .ln-chips { display:flex; gap:7px; flex-wrap:wrap; margin:8px 0 clamp(14px,3vw,26px); }
+
+/* ===== CHIP BUTTONS ===== */
+.ln-chip-row { display:flex; gap:7px; flex-wrap:wrap; margin:8px 0 clamp(14px,3vw,26px); }
+[data-testid="stHorizontalBlock"].chip-row-block > div { flex: 0 0 auto !important; width: auto !important; min-width: 0 !important; }
+div.chip-btn > button {
+    background: #111118 !important;
+    color: #8884a0 !important;
+    border: 0.5px solid rgba(255,255,255,0.1) !important;
+    border-radius: 999px !important;
+    padding: 5px 14px !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 400 !important;
+    font-size: clamp(10px,1.5vw,12px) !important;
+    letter-spacing: 0 !important;
+    min-height: unset !important;
+    height: auto !important;
+    width: auto !important;
+    transition: all 0.2s !important;
+    line-height: 1.4 !important;
+}
+div.chip-btn > button:hover {
+    background: rgba(124,92,252,0.15) !important;
+    border-color: #7c5cfc !important;
+    color: #a98bff !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
 .ln-chip {
     padding:5px 12px; border-radius:999px;
     border:0.5px solid rgba(255,255,255,0.1);
@@ -381,14 +409,14 @@ def hero_banner(title: str, subtitle: str, tag: str = ""):
     """, unsafe_allow_html=True)
 
 
-def stat_row():
-    st.markdown("""
-    <div class="ln-stats">
-        <div class="ln-stat"><div class="ln-stat-num">500+</div><div class="ln-stat-lbl">Topics</div></div>
-        <div class="ln-stat"><div class="ln-stat-num">10K+</div><div class="ln-stat-lbl">Learners</div></div>
-        <div class="ln-stat"><div class="ln-stat-num">∞</div><div class="ln-stat-lbl">Possibilities</div></div>
-    </div>
-    """, unsafe_allow_html=True)
+# def stat_row():
+#     st.markdown("""
+#     <div class="ln-stats">
+#         <div class="ln-stat"><div class="ln-stat-num">500+</div><div class="ln-stat-lbl">Topics</div></div>
+#         <div class="ln-stat"><div class="ln-stat-num">10K+</div><div class="ln-stat-lbl">Learners</div></div>
+#         <div class="ln-stat"><div class="ln-stat-num">∞</div><div class="ln-stat-lbl">Possibilities</div></div>
+#     </div>
+#     """, unsafe_allow_html=True)
 
 
 def result_card(icon: str, title: str, content: str, accent: str = "#7c5cfc"):
@@ -409,16 +437,16 @@ def section_header(text: str, color: str = "#a98bff"):
 
 
 def quick_chips():
-    st.markdown("""
-    <div class="ln-chips">
-        <span class="ln-chip">Machine Learning</span>
-        <span class="ln-chip">Web Development</span>
-        <span class="ln-chip">Data Science</span>
-        <span class="ln-chip">Python</span>
-        <span class="ln-chip">System Design</span>
-        <span class="ln-chip">Blockchain</span>
-    </div>
-    """, unsafe_allow_html=True)
+    chips = ["Machine Learning", "Web Development", "Data Science",
+             "Python", "System Design", "Blockchain"]
+    cols = st.columns(len(chips))
+    for i, chip in enumerate(chips):
+        with cols[i]:
+            st.markdown('<div class="chip-btn">', unsafe_allow_html=True)
+            if st.button(chip, key=f"chip_{i}"):
+                st.session_state["topic_input"] = chip
+                st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ================================================================
@@ -427,36 +455,36 @@ def quick_chips():
 # ================================================================
 
 def page_login():
-    hero_banner("Welcome Back ⚡", "Sign in to continue your personalized learning journey.", "AI-Powered Learning")
+    hero_banner("Welcome Back", "Sign in to continue your personalized learning journey.", "AI-Powered Learning")
 
     _, col, _ = st.columns([1, 3, 1])
     with col:
         username = st.text_input("Username", placeholder="Enter your username", key="login_user")
         password = st.text_input("Password", type="password", placeholder="Enter your password", key="login_pass")
         st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
-        if st.button("🔐 Sign In", use_container_width=True):
+        if st.button("Sign In", use_container_width=True):
             if login_user(username, password):
                 st.session_state.logged_in = True
                 st.session_state.username = username
-                st.success("Login successful ✅")
+                st.success("Login successful")
                 st.rerun()
             else:
-                st.error("Invalid credentials ❌")
+                st.error("Invalid credentials")
 
 
 def page_signup():
-    hero_banner("Join Learnova 🚀", "Create your account and start learning with AI today.", "Get Started Free")
+    hero_banner("Join Learnova", "Create your account and start learning with AI today.", "Get Started Free")
 
     _, col, _ = st.columns([1, 3, 1])
     with col:
         new_user = st.text_input("Choose Username", placeholder="Pick a cool username", key="signup_user")
         new_pass = st.text_input("Create Password", type="password", placeholder="Strong password", key="signup_pass")
         st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
-        if st.button("✨ Create Account", use_container_width=True):
+        if st.button("Create Account", use_container_width=True):
             if signup_user(new_user, new_pass):
-                st.success("Account created ✅ Now login!")
+                st.success("Account created! Now login!")
             else:
-                st.error("Username already exists ❌")
+                st.error("Username already exists")
 
 
 # ================================================================
@@ -468,24 +496,24 @@ def page_main():
     with st.sidebar:
         st.markdown(f"""
         <div class="ln-sb-logo">
-            <div class="ln-sb-logo-text">⚡ Learnova</div>
+            <div class="ln-sb-logo-text">Learnova</div>
             <div class="ln-sb-welcome">Welcome back, <span>{st.session_state.username}</span></div>
         </div>
         <hr style="border-color:rgba(255,255,255,0.07);margin:10px 0;">
         """, unsafe_allow_html=True)
 
-        if st.button("🚪 Logout", use_container_width=True):
+        if st.button("Logout", use_container_width=True):
             st.session_state.logged_in = False
             st.session_state.username = ""
             st.session_state.chat_history = []
             st.rerun()
 
-        st.markdown('<div class="ln-sb-hist-label">📂 History</div>', unsafe_allow_html=True)
+        st.markdown('<div class="ln-sb-hist-label">History</div>', unsafe_allow_html=True)
 
         history = get_history(st.session_state.username)
         for i, (q, r) in enumerate(history[::-1][:10]):
             label = q[:24] + ("…" if len(q) > 24 else "")
-            if st.button(f"🔖 {label}", key=f"hist_{i}", use_container_width=True):
+            if st.button(f"{label}", key=f"hist_{i}", use_container_width=True):
                 st.session_state.selected_query = q
                 st.session_state.selected_response = r
                 st.session_state.chat_history = []
@@ -499,30 +527,30 @@ def page_main():
     stat_row()
 
     # ---- INPUT ----
-    section_header("📚 Enter Topic")
+    section_header("Enter Topic")
     topic = st.text_input("", placeholder="e.g. Machine Learning, React, Quantum Physics...",
                           key="topic_input", label_visibility="collapsed")
     _, btn_col, _ = st.columns([1, 2, 1])
     with btn_col:
-        generate_clicked = st.button("✨ Generate", use_container_width=True)
+        generate_clicked = st.button("Generate", use_container_width=True)
 
     quick_chips()
 
     # ---- GENERATE ----
     if generate_clicked:
         if not topic:
-            st.markdown('<div class="ln-warn">⚠️ Please enter a topic first.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="ln-warn">Please enter a topic first.</div>', unsafe_allow_html=True)
         else:
             st.session_state.chat_history = []
             st.session_state.selected_query = None
             st.session_state.selected_response = None
-            with st.spinner("🤖 Generating your personalized learning plan..."):
+            with st.spinner("Generating your personalized learning plan..."):
                 roadmap     = generate_roadmap(topic)
                 explanation = generate_explanation(topic)
                 resources   = generate_resources(topic)
-            result_card("🗺️", "Learning Roadmap", roadmap,     "#7c5cfc")
-            result_card("📘", "Explanation",       explanation, "#00d4aa")
-            result_card("🔗", "Resources",         resources,   "#ff6b6b")
+            result_card("", "Learning Roadmap", roadmap,     "#7c5cfc")
+            result_card("", "Explanation",       explanation, "#00d4aa")
+            result_card("", "Resources",         resources,   "#ff6b6b")
             save_history(st.session_state.username, topic, f"{roadmap}\n\n{explanation}\n\n{resources}")
 
     # ---- PREVIOUS SEARCH ----
@@ -530,15 +558,15 @@ def page_main():
         st.markdown("<hr>", unsafe_allow_html=True)
         st.markdown(f"""
         <div class="ln-prev">
-            <div class="ln-prev-label">📌 Previous Search</div>
+            <div class="ln-prev-label">Previous Search</div>
             <div class="ln-prev-title">{st.session_state.selected_query}</div>
         </div>
         """, unsafe_allow_html=True)
-        result_card("📋", "Saved Response", st.session_state.selected_response, "#7c5cfc")
+        result_card("", "Saved Response", st.session_state.selected_response, "#7c5cfc")
 
     # ---- CHATBOT ----
     st.markdown("<hr>", unsafe_allow_html=True)
-    section_header("🤖 Ask Learnova", "#c084fc")
+    section_header("Ask Learnova", "#c084fc")
 
     for msg in st.session_state.chat_history:
         if msg["role"] == "user":
@@ -567,7 +595,7 @@ if not st.session_state.logged_in:
         <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;
             background:linear-gradient(135deg,#7c5cfc,#00d4aa);
             -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-            background-clip:text;">⚡ Learnova</span>
+            background-clip:text;">Learnova</span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -621,10 +649,10 @@ if not st.session_state.logged_in:
         menu_choice = st.radio("", ["Login", "Signup"], horizontal=True, label_visibility="collapsed", key="auth_menu")
 
     if menu_choice == "Login":
-        st.markdown('<p style="text-align:center;color:#a98bff;font-family:\'Syne\',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin:0 0 6px;">🔐 Login Page</p>', unsafe_allow_html=True)
+        st.markdown('<p style="text-align:center;color:#a98bff;font-family:\'Syne\',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin:0 0 6px;">Login Page</p>', unsafe_allow_html=True)
         page_login()
     else:
-        st.markdown('<p style="text-align:center;color:#00d4aa;font-family:\'Syne\',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin:0 0 6px;">✨ Signup Page</p>', unsafe_allow_html=True)
+        st.markdown('<p style="text-align:center;color:#00d4aa;font-family:\'Syne\',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin:0 0 6px;">Signup Page</p>', unsafe_allow_html=True)
         page_signup()
 else:
     page_main()
