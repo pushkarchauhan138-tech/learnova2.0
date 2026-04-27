@@ -2,7 +2,7 @@ import streamlit as st
 from ai_engine1 import generate_roadmap, generate_explanation, generate_resources, chatbot_response
 from auth1 import signup_user, login_user, save_history, get_history
 
-st.set_page_config(page_title="Learnova", page_icon="⚡", layout="centered")
+st.set_page_config(page_title="Learnova", page_icon="⚡", layout="centered",initial_sidebar_state="expanded")
 
 # ---------------- SESSION STATE ----------------
 defaults = {
