@@ -167,6 +167,22 @@ div[data-testid="stSelectbox"] > div > div {
     color: #f0eeff !important;
 }
 
+/* ===== AUTH TOGGLE (mobile-friendly top selectbox) ===== */
+[data-testid="stSelectbox"] {
+    max-width: 220px !important;
+    margin: 0 auto 6px auto !important;
+}
+[data-testid="stSelectbox"] > div > div {
+    background: rgba(124,92,252,0.10) !important;
+    border: 0.5px solid rgba(124,92,252,0.35) !important;
+    border-radius: 999px !important;
+    color: #a98bff !important;
+    font-family: 'Syne', sans-serif !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    padding: 8px 18px !important;
+}
+
 /* ===== AUTH CARD — style the middle column as a card ===== */
 [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-child(2) > div:first-child {
     background: #111118;
@@ -541,13 +557,21 @@ def page_main():
 #  ROUTER
 # ================================================================
 if not st.session_state.logged_in:
-    st.sidebar.markdown("""
-    <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;
-        background:linear-gradient(135deg,#7c5cfc,#00d4aa);
-        -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-        background-clip:text;padding:14px 0 2px;text-align:center;">⚡ Learnova</div>
+    # Mobile-friendly top toggle instead of sidebar
+    st.markdown("""
+    <div style="text-align:center;padding:18px 0 4px;">
+        <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;
+            background:linear-gradient(135deg,#7c5cfc,#00d4aa);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            background-clip:text;">⚡ Learnova</span>
+    </div>
     """, unsafe_allow_html=True)
-    menu_choice = st.sidebar.selectbox("", ["Login", "Signup"], label_visibility="collapsed")
+
+    # Centered tab toggle
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        menu_choice = st.selectbox("", ["Login", "Signup"], label_visibility="collapsed", key="auth_menu")
+
     if menu_choice == "Login":
         page_login()
     else:
