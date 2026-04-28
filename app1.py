@@ -457,22 +457,7 @@ def section_header(text: str, color: str = "#a98bff"):
 
 
 def quick_chips():
-    st.markdown("""
-    <div style="display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 20px;">
-        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
-            background:#111118; color:#8884a0; font-size:13px; cursor:default;">Machine Learning</span>
-        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
-            background:#111118; color:#8884a0; font-size:13px; cursor:default;">Web Development</span>
-        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
-            background:#111118; color:#8884a0; font-size:13px; cursor:default;">Data Science</span>
-        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
-            background:#111118; color:#8884a0; font-size:13px; cursor:default;">Python</span>
-        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
-            background:#111118; color:#8884a0; font-size:13px; cursor:default;">System Design</span>
-        <span style="padding:6px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
-            background:#111118; color:#8884a0; font-size:13px; cursor:default;">Blockchain</span>
-    </div>
-    """, unsafe_allow_html=True)
+    pass
 
 
 # ================================================================
@@ -543,23 +528,6 @@ def page_main():
                 st.session_state.selected_query = q
                 st.session_state.selected_response = r
                 st.session_state.chat_history = []
-
-    # ---- MOBILE TOP BAR ----
-    st.markdown(f"""
-    <div class="ln-mobile-bar">
-        <span class="ln-mobile-logo">⚡ Learnova</span>
-        <span class="ln-mobile-user">👤 {st.session_state.username}</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # Mobile logout button
-    mob_col1, mob_col2, mob_col3 = st.columns([2, 1, 2])
-    with mob_col2:
-        if st.button("🚪 Logout", key="mob_logout", use_container_width=True):
-            st.session_state.logged_in = False
-            st.session_state.username = ""
-            st.session_state.chat_history = []
-            st.rerun()
 
     # ---- HERO ----
     hero_banner(
